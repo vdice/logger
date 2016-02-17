@@ -1,3 +1,10 @@
+# makeup-managed:begin
+include makeup.mk
+# makeup-managed:end
+
+SHORT_NAME ?= logger
+include ${MAKEUP_DIR}/makeup-bag-deis/versioning.mk
+
 SHELL = /bin/bash
 GO = go
 GOFMT = gofmt -l
@@ -23,15 +30,10 @@ LDFLAGS := "-s -X main.version=${VERSION}"
 BINARY_DEST_DIR = rootfs/opt/logger/sbin
 
 DOCKER_HOST = $(shell echo $$DOCKER_HOST)
-BUILD_TAG ?= git-$(shell git rev-parse --short HEAD)
-SHORT_NAME ?= logger
-DEIS_REGISTRY ?= ${DEV_REGISTRY}
-IMAGE_PREFIX ?= deis
-IMAGE_LATEST := ${DEIS_REGISTRY}${IMAGE_PREFIX}/${SHORT_NAME}:latest
-IMAGE := ${DEIS_REGISTRY}${IMAGE_PREFIX}/${SHORT_NAME}:${BUILD_TAG}
+
 
 info:
-	@echo "Build tag:  ${BUILD_TAG}"
+	@echo "Build tag:  ${VERSION}"
 	@echo "Registry:   ${DEIS_REGISTRY}"
 	@echo "Image:      ${IMAGE}"
 
